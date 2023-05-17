@@ -2,12 +2,12 @@ package ru.job4j.urlshortcut.service;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.job4j.urlshortcut.dto.RespUrlDTO;
 import ru.job4j.urlshortcut.dto.StatisticUrlDTO;
-import ru.job4j.urlshortcut.dto.UrlDTO;
+import ru.job4j.urlshortcut.dto.ReqUrlDTO;
 import ru.job4j.urlshortcut.mapper.StatisticUrlMapper;
 import ru.job4j.urlshortcut.model.Url;
 import ru.job4j.urlshortcut.repository.SiteRepository;
@@ -43,21 +43,21 @@ public class UrlServiceImpl implements UrlService {
      * Преобразовать полный адрес в сокращенный. Если полный URL уже существует в базе данных,
      * то клиенту вернется уже существующий сокращенный URL. Иначе будет сгенерирован новый сокращенный URL
      *
-     * @param urlDTO объект типа UrlDTO, содержащий полный адрес
-     * @return сокращенный адрес
+     * @param reqUrlDTO объект типа ReqUrlDTO, содержащий полный адрес
+     * @return объект типа RespUrlDTO, содержащий в себе сокращенный адрес
      */
     @SneakyThrows
     @Override
-    public String convert(UrlDTO urlDTO) {
-        var longUrl = urlRepository.findByLongUrl(urlDTO.getUrl());
+    public RespUrlDTO convert(ReqUrlDTO reqUrlDTO) {
+        var longUrl = urlRepository.findByLongUrl(reqUrlDTO.getUrl());
         if (longUrl.isEmpty()) {
             MessageDigest md = MessageDigest.getInstance(HASHING_ALGORITHM);
-            byte[] hash = md.digest(urlDTO.getUrl().getBytes());
+            byte[] hash = md.digest(reqUrlDTO.getUrl().getBytes());
             String base64encoded = Base64.getUrlEncoder().withoutPadding().encodeToString(hash).substring(0, 8);
-            save(urlOf(urlDTO.getUrl(), base64encoded));
-            return base64encoded;
+            save(urlOf(reqUrlDTO.getUrl(), base64encoded));
+            return new RespUrlDTO(base64encoded);
         }
-        return longUrl.get().getShortUrl();
+        return new RespUrlDTO(longUrl.get().getShortUrl());
     }
 
     /**

@@ -6,8 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import ru.job4j.urlshortcut.dto.RespUrlDTO;
 import ru.job4j.urlshortcut.dto.StatisticUrlDTO;
-import ru.job4j.urlshortcut.dto.UrlDTO;
+import ru.job4j.urlshortcut.dto.ReqUrlDTO;
 import ru.job4j.urlshortcut.service.UrlService;
 
 import java.net.URI;
@@ -31,17 +32,18 @@ public class UrlController {
      * POST метод для преобразования полного URL в сокращенный. Если полный URL уже существует в базе данных,
      * то клиенту вернется уже существующий сокращенный URL. Иначе будет сгенерирован новый сокращенный URL
      *
-     * @param urlDTO объект типа UrlDTO, содержащий полный адрес
+     * @param reqUrlDTO объект типа UrlDTO, содержащий полный адрес
      * @return сокращенный адрес, который можно использовать для доступа к полному адресу
      */
     @PostMapping("/convert")
-    public ResponseEntity<String> convertUrl(@Validated @RequestBody UrlDTO urlDTO) {
-        var shortUrl = urlService.convert(urlDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("code: %s", shortUrl));
+    public ResponseEntity<RespUrlDTO> convertUrl(@Validated @RequestBody ReqUrlDTO reqUrlDTO) {
+        var shortUrl = urlService.convert(reqUrlDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(shortUrl);
     }
 
     /**
      * GET метод возвращающий полный адрес по сокращенному
+     *
      * @param shortUrl сокращенный адрес
      * @return Если для короткого адреса нет ассоциированного полного адреса, то выбрасывается исключение ResponseStatusException
      * Иначе возвращает ответ со статусом 302 FOUND и заголовком Location, который содержит полный адрес куда должен быть выполнен переход
@@ -58,6 +60,7 @@ public class UrlController {
 
     /**
      * GET сетод возвращающий статистику всех адресов и количество вызовов этого адреса
+     *
      * @return список объектов StatisticUrlDTO
      */
     @GetMapping("/statistic")

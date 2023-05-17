@@ -1,7 +1,8 @@
 package ru.job4j.urlshortcut.service;
 
+import ru.job4j.urlshortcut.dto.RespUrlDTO;
 import ru.job4j.urlshortcut.dto.StatisticUrlDTO;
-import ru.job4j.urlshortcut.dto.UrlDTO;
+import ru.job4j.urlshortcut.dto.ReqUrlDTO;
 import ru.job4j.urlshortcut.model.Url;
 
 import java.util.List;
@@ -17,10 +18,10 @@ public interface UrlService {
     /**
      * Преобразовать полный адрес в сокращенный
      *
-     * @param urlDTO объект типа ReqUrlDTO, содержащий полный адрес
-     * @return сокращенный адрес
+     * @param reqUrlDTO объект типа ReqUrlDTO, содержащий полный адрес
+     * @return объект типа RespUrlDTO, содержащий в себе сокращенный адрес
      */
-    String convert(UrlDTO urlDTO);
+    RespUrlDTO convert(ReqUrlDTO reqUrlDTO);
 
     /**
      * Сохранить объект Url в базу данных

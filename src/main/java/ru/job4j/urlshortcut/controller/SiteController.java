@@ -36,7 +36,7 @@ public class SiteController {
     @PostMapping("/registration")
     public ResponseEntity<RespSiteDTO> registration(@Validated @RequestBody ReqSiteDTO reqSiteDTO) {
         var respSiteDTO = service.registration(reqSiteDTO);
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .body(respSiteDTO.get());
     }
 }

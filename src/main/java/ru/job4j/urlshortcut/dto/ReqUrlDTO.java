@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Pattern;
 
 /**
- * UrlDTO - объект, содержащий в себе URL адрес, полученный со стороны клиента
+ * ReqUrlDTO - объект, содержащий в себе URL адрес, полученный со стороны клиента
  *
  * @author Ilya Kaltygin
  */
@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UrlDTO {
+public class ReqUrlDTO {
 
     @Pattern(regexp = "^https?://[^\\s/$.?#]+\\.[^\\s]*$", message = "Invalid URL")
     private String url;
