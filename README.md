@@ -83,4 +83,6 @@ GET /statistic
 ![](images/10.png)
 #### Ответ от сервера:
 ![](images/11.png)
+# Контакты
+### Telegram: @Ilya96s
 
