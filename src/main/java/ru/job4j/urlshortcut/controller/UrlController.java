@@ -2,6 +2,7 @@ package ru.job4j.urlshortcut.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class UrlController {
      */
     private final UrlService urlService;
 
+    @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Преобразование полного URL адреса в сокращенный URL адрес.",
             description = "Если полный URL уже существует в базе данных," +
@@ -44,6 +46,7 @@ public class UrlController {
         return ResponseEntity.status(HttpStatus.OK).body(shortUrl);
     }
 
+    @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Переадресация на полный URL адрес",
             description = "Если для короткого адреса нет ассоциированного полного адреса, " +
@@ -62,6 +65,7 @@ public class UrlController {
                 .build();
     }
 
+    @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Получение статистики для всех адресов и количество вызовов каждого адреса",
             description = "Метод возвращает статистику для всех адресов и количество вызово каждого адреса."
