@@ -1,5 +1,8 @@
 package ru.job4j.urlshortcut.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +18,11 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * UrlController - контроллер, отвечающий за обработку операций с Url
- *
  * @author Ilya Kaltygin
  */
 @RestController
 @AllArgsConstructor
+@Tag(name = "Контроллер для работы с URL адресами")
 public class UrlController {
 
     /**
@@ -28,28 +30,30 @@ public class UrlController {
      */
     private final UrlService urlService;
 
-    /**
-     * POST метод для преобразования полного URL в сокращенный. Если полный URL уже существует в базе данных,
-     * то клиенту вернется уже существующий сокращенный URL. Иначе будет сгенерирован новый сокращенный URL
-     *
-     * @param reqUrlDTO объект типа UrlDTO, содержащий полный адрес
-     * @return сокращенный адрес, который можно использовать для доступа к полному адресу
-     */
+    @Operation(
+            summary = "Преобразование полного URL адреса в сокращенный URL адрес.",
+            description = "Если полный URL уже существует в базе данных," +
+                    "то клиенту вернется уже существующий сокращенный URL. " +
+                    "Иначе будет сгенерирован новый сокращенный URL адрес, " +
+                    "который можно использовать для доступа к полному URL адресу"
+    )
     @PostMapping("/convert")
-    public ResponseEntity<RespUrlDTO> convertUrl(@Validated @RequestBody ReqUrlDTO reqUrlDTO) {
+    public ResponseEntity<RespUrlDTO> convertUrl(
+            @Validated @RequestBody @Parameter(description = "Объект, содержащий полный URL адрес") ReqUrlDTO reqUrlDTO) {
         var shortUrl = urlService.convert(reqUrlDTO);
         return ResponseEntity.status(HttpStatus.OK).body(shortUrl);
     }
 
-    /**
-     * GET метод возвращающий полный адрес по сокращенному
-     *
-     * @param shortUrl сокращенный адрес
-     * @return Если для короткого адреса нет ассоциированного полного адреса, то выбрасывается исключение ResponseStatusException
-     * Иначе возвращает ответ со статусом 302 FOUND и заголовком Location, который содержит полный адрес куда должен быть выполнен переход
-     */
+    @Operation(
+            summary = "Переадресация на полный URL адрес",
+            description = "Если для короткого адреса нет ассоциированного полного адреса, " +
+                    "то выбрасывается исключение ResponseStatusException." +
+                    "Иначе возвращает ответ со статусом 302 FOUND и заголовком Location, " +
+                    "который содержит полный адрес куда должен быть выполнен переход"
+    )
     @GetMapping("/redirect/{shortUrl}")
-    public ResponseEntity<Void> getRedirect(@PathVariable String shortUrl) {
+    public ResponseEntity<Void> getRedirect(
+            @PathVariable @Parameter(description = "Сокращенный URL адрес") String shortUrl) {
         var url = urlService.findByShortUrl(shortUrl)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No associations found for short url"));
         return ResponseEntity
@@ -58,11 +62,10 @@ public class UrlController {
                 .build();
     }
 
-    /**
-     * GET сетод возвращающий статистику всех адресов и количество вызовов этого адреса
-     *
-     * @return список объектов StatisticUrlDTO
-     */
+    @Operation(
+            summary = "Получение статистики для всех адресов и количество вызовов каждого адреса",
+            description = "Метод возвращает статистику для всех адресов и количество вызово каждого адреса."
+    )
     @GetMapping("/statistic")
     public List<StatisticUrlDTO> getStatistic() {
         return urlService.findUrlBySite();

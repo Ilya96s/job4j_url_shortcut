@@ -1,5 +1,8 @@
 package ru.job4j.urlshortcut.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +15,11 @@ import ru.job4j.urlshortcut.dto.RespSiteDTO;
 import ru.job4j.urlshortcut.service.SiteService;
 
 /**
- * SiteController - контроллер, отвечающий за обработку операций с Site
- *
  * @author Ilya Kaltygin
  */
 @RestController
 @AllArgsConstructor
+@Tag(name = "Контроллер для работы с сайтами")
 public class SiteController {
 
     /**
@@ -25,16 +27,15 @@ public class SiteController {
      */
     private final SiteService service;
 
-    /**
-     * Зарегистрировать сайт в базе данных
-     *
-     * @param reqSiteDTO объект типа ReqSiteDTO
-     * @return Если сайт ранее не был зарегистрирован в базе даннх,
-     * то клиенту вернется ответ в виде {registration : true, login: УНИКАЛЬНЫЙ_ЛОГИН, password : УНИКАЛЬНЫЙ_ПАРОЛЬ}.
-     * Иначе ответ в виде {registration : false, login: УНИКАЛЬНЫЙ_КОД, password : УНИКАЛЬНЫЙ_КОД}
-     */
+    @Operation(
+            summary = "Регистрация сайта",
+            description = "Если сайт ранее не был зарегистрирован в базе даннх," +
+                    "то клиенту вернется ответ в виде {registration : true, login: УНИКАЛЬНЫЙ_ЛОГИН, password : УНИКАЛЬНЫЙ_ПАРОЛЬ}." +
+                    "Иначе ответ в виде {registration : false, login: УНИКАЛЬНЫЙ_КОД, password : УНИКАЛЬНЫЙ_КОД}"
+    )
     @PostMapping("/registration")
-    public ResponseEntity<RespSiteDTO> registration(@Validated @RequestBody ReqSiteDTO reqSiteDTO) {
+    public ResponseEntity<RespSiteDTO> registration(
+            @Validated @RequestBody @Parameter(description = "Объект, содержащий домен сайта") ReqSiteDTO reqSiteDTO) {
         var respSiteDTO = service.registration(reqSiteDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(respSiteDTO.get());
