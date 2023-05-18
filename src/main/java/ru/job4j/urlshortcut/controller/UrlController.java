@@ -34,10 +34,10 @@ public class UrlController {
     @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Преобразование полного URL адреса в сокращенный URL адрес.",
-            description = "Если полный URL уже существует в базе данных," +
-                    "то клиенту вернется уже существующий сокращенный URL. " +
-                    "Иначе будет сгенерирован новый сокращенный URL адрес, " +
-                    "который можно использовать для доступа к полному URL адресу"
+            description = "Если полный URL уже существует в базе данных,"
+                    + "то клиенту вернется уже существующий сокращенный URL. "
+                    + "Иначе будет сгенерирован новый сокращенный URL адрес, "
+                    + "который можно использовать для доступа к полному URL адресу"
     )
     @PostMapping("/convert")
     public ResponseEntity<RespUrlDTO> convertUrl(
@@ -49,10 +49,10 @@ public class UrlController {
     @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Переадресация на полный URL адрес",
-            description = "Если для короткого адреса нет ассоциированного полного адреса, " +
-                    "то выбрасывается исключение ResponseStatusException." +
-                    "Иначе возвращает ответ со статусом 302 FOUND и заголовком Location, " +
-                    "который содержит полный адрес куда должен быть выполнен переход"
+            description = "Если для короткого адреса нет ассоциированного полного адреса, "
+                    + "то выбрасывается исключение ResponseStatusException."
+                    + "Иначе возвращает ответ со статусом 302 FOUND и заголовком Location, "
+                    + "который содержит полный адрес куда должен быть выполнен переход"
     )
     @GetMapping("/redirect/{shortUrl}")
     public ResponseEntity<Void> getRedirect(

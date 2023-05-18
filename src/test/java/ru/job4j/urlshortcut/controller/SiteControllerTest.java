@@ -88,6 +88,4 @@ class SiteControllerTest {
                         .content(jsonObject.toString()))
                 .andExpect(status().isBadRequest());
     }
-
-
 }

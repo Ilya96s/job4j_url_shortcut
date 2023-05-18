@@ -29,9 +29,9 @@ public class SiteController {
 
     @Operation(
             summary = "Регистрация сайта",
-            description = "Если сайт ранее не был зарегистрирован в базе даннх," +
-                    "то клиенту вернется ответ в виде {registration : true, login: УНИКАЛЬНЫЙ_ЛОГИН, password : УНИКАЛЬНЫЙ_ПАРОЛЬ}." +
-                    "Иначе ответ в виде {registration : false, login: УНИКАЛЬНЫЙ_КОД, password : УНИКАЛЬНЫЙ_КОД}"
+            description = "Если сайт ранее не был зарегистрирован в базе даннх,"
+                    + "то клиенту вернется ответ в виде {registration : true, login: УНИКАЛЬНЫЙ_ЛОГИН, password : УНИКАЛЬНЫЙ_ПАРОЛЬ}."
+                    + "Иначе ответ в виде {registration : false, login: УНИКАЛЬНЫЙ_КОД, password : УНИКАЛЬНЫЙ_КОД}"
     )
     @PostMapping("/registration")
     public ResponseEntity<RespSiteDTO> registration(
