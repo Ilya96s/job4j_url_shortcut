@@ -42,7 +42,7 @@ public class SiteServiceImpl implements SiteService {
         var foundSite = findSiteByDomain(reqSiteDTO.getDomain());
         if (foundSite.isEmpty()) {
             var password = generatePassword();
-            var login = generatedLogin();
+            var login = generatedUniqLogin();
             var site = Site.builder()
                     .domain(reqSiteDTO.getDomain())
                     .login(login)
@@ -90,14 +90,18 @@ public class SiteServiceImpl implements SiteService {
     /**
      * Сгенерировать пароль
      */
-    private static String generatePassword() {
+    private String generatePassword() {
         return UUID.randomUUID().toString().substring(0, 8);
     }
 
     /**
      * Сгенерировать логин
      */
-    private static String generatedLogin() {
-        return RandomStringUtils.randomAlphabetic(8, 16);
+    private  String generatedUniqLogin() {
+        var login = RandomStringUtils.randomAlphabetic(8, 16);
+        while (siteRepository.findByLogin(login).isPresent()) {
+            login = RandomStringUtils.randomAlphabetic(8, 16);
+        }
+        return login;
     }
 }
