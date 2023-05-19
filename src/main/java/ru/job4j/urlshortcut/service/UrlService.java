@@ -1,5 +1,6 @@
 package ru.job4j.urlshortcut.service;
 
+import org.springframework.security.core.Authentication;
 import ru.job4j.urlshortcut.dto.RespUrlDTO;
 import ru.job4j.urlshortcut.dto.StatisticUrlDTO;
 import ru.job4j.urlshortcut.dto.ReqUrlDTO;
@@ -19,9 +20,10 @@ public interface UrlService {
      * Преобразовать полный адрес в сокращенный
      *
      * @param reqUrlDTO объект типа ReqUrlDTO, содержащий полный адрес
+     * @param auth объект, содержащий информацию о подлинности пользователя
      * @return объект типа RespUrlDTO, содержащий в себе сокращенный адрес
      */
-    RespUrlDTO convert(ReqUrlDTO reqUrlDTO);
+    RespUrlDTO convert(ReqUrlDTO reqUrlDTO, Authentication auth);
 
     /**
      * Сохранить объект Url в базу данных
@@ -50,7 +52,8 @@ public interface UrlService {
     /**
      * Найти все адреса в базе данных по идентификатору сайта
      *
+     * @param auth объект, содержащий информацию о подлинности пользователя
      * @return список адресов
      */
-    List<StatisticUrlDTO> findUrlBySite();
+    List<StatisticUrlDTO> findUrlBySite(Authentication auth);
 }

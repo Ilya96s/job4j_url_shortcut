@@ -15,7 +15,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.job4j.urlshortcut.filter.JWTAuthenticationFilter;
 import ru.job4j.urlshortcut.filter.JWTAuthorizationFilter;
 import ru.job4j.urlshortcut.service.SiteServiceImpl;
-import ru.job4j.urlshortcut.service.UserDetailsServiceImpl;
 
 import static ru.job4j.urlshortcut.filter.JWTAuthenticationFilter.SIGN_UP_URL;
 

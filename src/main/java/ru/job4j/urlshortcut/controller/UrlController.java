@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,8 +42,9 @@ public class UrlController {
     )
     @PostMapping("/convert")
     public ResponseEntity<RespUrlDTO> convertUrl(
-            @Validated @RequestBody @Parameter(description = "Объект, содержащий полный URL адрес") ReqUrlDTO reqUrlDTO) {
-        var shortUrl = urlService.convert(reqUrlDTO);
+            @Validated @RequestBody @Parameter(description = "Объект, содержащий полный URL адрес") ReqUrlDTO reqUrlDTO,
+            Authentication auth) {
+        var shortUrl = urlService.convert(reqUrlDTO, auth);
         return ResponseEntity.status(HttpStatus.OK).body(shortUrl);
     }
 
@@ -71,8 +73,8 @@ public class UrlController {
             description = "Метод возвращает статистику для всех адресов и количество вызово каждого адреса."
     )
     @GetMapping("/statistic")
-    public List<StatisticUrlDTO> getStatistic() {
-        return urlService.findUrlBySite();
+    public List<StatisticUrlDTO> getStatistic(Authentication auth) {
+        return urlService.findUrlBySite(auth);
     }
 
 }

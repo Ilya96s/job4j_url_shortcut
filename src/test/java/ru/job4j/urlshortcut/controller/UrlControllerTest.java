@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -58,7 +59,7 @@ class UrlControllerTest {
         var respUrlDTO = new RespUrlDTO("ZRUfdD2");
 
         ArgumentCaptor<ReqUrlDTO> argumentCaptor = ArgumentCaptor.forClass(ReqUrlDTO.class);
-        Mockito.when(urlService.convert(argumentCaptor.capture())).thenReturn(respUrlDTO);
+        Mockito.when(urlService.convert(argumentCaptor.capture(), any())).thenReturn(respUrlDTO);
 
         mockMvc.perform(post("/convert")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -67,7 +68,7 @@ class UrlControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("code").value("ZRUfdD2"));
 
-        verify(urlService).convert(argumentCaptor.capture());
+        verify(urlService).convert(argumentCaptor.capture(), any());
 
         assertThat(argumentCaptor.getValue().getUrl(),
                 is("https://job4j.ru/profile/exercise/106/task-view/532"));
