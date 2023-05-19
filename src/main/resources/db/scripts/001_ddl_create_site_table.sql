@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS site
 (
     id       SERIAL PRIMARY KEY,
     domain   VARCHAR NOT NULL UNIQUE,
-    login    VARCHAR NOT NULL,
+    login    VARCHAR NOT NULL UNIQUE ,
     password VARCHAR NOT NULL
 );
 
