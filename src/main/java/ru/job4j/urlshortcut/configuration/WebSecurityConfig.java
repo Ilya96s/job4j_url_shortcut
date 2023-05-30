@@ -14,7 +14,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.job4j.urlshortcut.filter.JWTAuthenticationFilter;
 import ru.job4j.urlshortcut.filter.JWTAuthorizationFilter;
-import ru.job4j.urlshortcut.service.SiteServiceImpl;
+import ru.job4j.urlshortcut.service.UserDetailsServiceImpl;
 
 import static ru.job4j.urlshortcut.filter.JWTAuthenticationFilter.SIGN_UP_URL;
 
@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * Сервис, загружающий детали авторизованного пользователя в SecurityContextHolder
      */
-    private SiteServiceImpl siteService;
+    private UserDetailsServiceImpl userDetailsService;
 
     /**
      * Объект, хэширующий пароли
@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(siteService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     /**
