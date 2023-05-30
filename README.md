@@ -25,7 +25,7 @@
 * Maven 3.8.1
 * PostgreSQL 14
 
-# Запуск проекта:
+# Запуск проекта с помощью терминала:
 1. В PostgreSQL создать базу данных url_shortcut
 ```shell
 jdbc:postgresql://127.0.0.1:5432/url_shortcut
@@ -37,6 +37,24 @@ mvn spring-boot run
 3. Для выполнения запросов использовать Swagger или другой API
 ```shell
 http://localhost:8080/swagger-ui.html
+```
+
+# Запуск проекта с помощью docker-compose:
+1. Клонируйте проект
+```shell
+gi clone https://github.com/Ilya96s/job4j_url_shortcut
+```
+2. Перейдите в папку проекта
+```shell
+cd job4j_url_shortcut
+```
+3. Создайте образ проекта
+```shell
+docker-compose build
+```
+4. Выполните команду
+```shell
+docker-compose up
 ```
 
 # Взаимодействие с приложением:
